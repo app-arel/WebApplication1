@@ -1,0 +1,12 @@
+﻿@*@model WebApplication1.ViewModel.UploadViewModel;
+
+<form asp-action="Uploader" asp-controller="Home" method="post" enctype="multipart/form-data">
+    <div>
+        <label for="file">Select file to upload:</label>
+        <input asp-for="File" type="file" />
+    </div>
+    <div>
+        <button type="submit">Upload</button>
+    </div>
+</form>
+*@

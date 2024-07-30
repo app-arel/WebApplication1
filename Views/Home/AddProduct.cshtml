@@ -1,0 +1,42 @@
+﻿@model WebApplication1.ViewModel.CompositeViewModel;
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApplication1</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/LeaveManagementSystem.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <h1 class=" text-center text-warning mt-5 fw-light ">Create Product</h1>
+    <form asp-action="AddProduct" method="post" enctype="multipart/form-data">
+        <div class="row justify-content-center">
+            <input type="text" class=" form-control border-warning  w-75 mt-4" asp-for="Product.Name" placeholder="Product Name" />
+            <input type="text" class="form-control border-warning w-75 mt-4" asp-for="Product.Description" placeholder="Product description" />
+            <select asp-for="Product.CategoryName" class="form-select border-warning  w-75 mt-4">
+                <option>---</option>
+                @foreach(var item in Model.Category)
+                {
+                    <option>@Html.DisplayFor(modelItem => item.Name)</option>
+                }
+            </select>
+             
+            @*<input type="text" class="form-control border-warning  w-75 mt-4" asp-for="CategoryName" placeholder="Product Category " /> *@
+            <input type="number" class=" form-control border-warning  w-75 mt-4" asp-for="Product.Price" placeholder="Product Price " />
+            <input type="file" class="form-control border-warning  w-75 mt-4" asp-for="Product.File" placeholder="Product Category " />
+
+        </div>
+        <div class="row justify-content-center">
+            <button class="btn btn-outline-warning w-25 mt-5">Submit</button>
+        </div>
+
+    </form>
+</body>
+</html>
