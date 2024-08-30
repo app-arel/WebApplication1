@@ -1,0 +1,40 @@
+﻿@model WebApplication1.ViewModel.PromoProductViewModel;
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebApplication1</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/LeaveManagementSystem.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <h1 class=" text-center text-warning mt-5 fw-light ">Create Promo</h1>
+    <form asp-action="AddPromo" method="post" enctype="multipart/form-data">
+        <div class="row justify-content-center">
+            <input type="text" class=" form-control border-warning  w-75 mt-4" asp-for="Promo.Name" placeholder="Promo Name" />
+            <select asp-for="Promo.ProductName" class="form-select border-warning  w-75 mt-4">
+                <option>---Enter the product---</option>
+                @if(Model != null && Model.Products != null && Model.Products.Any()){
+                @foreach (var item in Model.Products)
+                {
+                    <option>@Html.DisplayFor(modelItem => item.Name)</option>
+                }}
+                else{
+                    <p> none available </p>
+                }
+            </select>
+        </div>
+        <div class="row justify-content-center">
+            <button class="btn btn-outline-warning w-25 mt-5">Submit</button>
+        </div>
+
+    </form>
+</body>
+</html>

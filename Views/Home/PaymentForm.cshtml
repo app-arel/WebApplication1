@@ -1,0 +1,46 @@
+﻿@{
+    ViewBag.Title = "Stripe Payment";
+}
+
+<h2>Payment Details</h2>
+
+<!-- Stripe.js library -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<div id="payment-form">
+    <div id="card-element">
+        <!-- Stripe's Card Element will be inserted here -->
+    </div>
+    <button id="submit" class="btn btn-primary mt-3">Submit Payment</button>
+</div>
+
+<div id="payment-message" class="mt-3"></div>
+
+<script>
+    var stripe = Stripe('your-publishable-key-here');
+    var elements = stripe.elements();
+    var cardElement = elements.create('card');
+    cardElement.mount('#card-element');
+
+    var form = document.getElementById('payment-form');
+    var clientSecret = '@ViewBag.ClientSecret';
+
+    form.addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+            payment_method: {
+                card: cardElement,
+                billing_details: {
+                    name: 'Customer Name'
+                }
+            }
+        });
+
+        if (error) {
+            document.getElementById('payment-message').textContent = error.message;
+        } else if (paymentIntent.status === 'succeeded') {
+            document.getElementById('payment-message').textContent = 'Payment successful!';
+        }
+    });
+</script>

@@ -236,6 +236,7 @@ span.tooltip-content {
 	text-align: left;
 }
 .container {
+	grid-template-columns: 1fr 1fr 1fr;
 	width: auto;
 	max-width: 100%;
 }
@@ -451,7 +452,6 @@ textarea:focus {
 /*----------------------------------------*/
 /*Home One | Slider Background Image*/
 .bg-1, .bg-2, .bg-3 {
-	background: url("images/slider/1.jpg");
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: cover;
