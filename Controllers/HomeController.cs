@@ -595,7 +595,7 @@ namespace WebApplication1.Controllers
             var cartProducts = _context.Carts.Include(x => x.Product).ToList();
             var categories = _context.Categories.ToList();
             var carts = _context.Carts.ToList();
-            decimal sum = 0;
+            decimal sum = 0 ;
             if (carts.Count != 0 || products.Count != 0)
             {
                 List<decimal> price = new List<decimal>();
