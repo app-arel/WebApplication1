@@ -10,6 +10,7 @@ using System.Text;
 using MailKit.Net.Smtp;
 using Stripe.Issuing;
 using Stripe.Climate;
+using WebApplication1.Services;
 
 namespace WebApplication1.Controllers
 {
@@ -76,6 +77,60 @@ namespace WebApplication1.Controllers
             _context.SaveChanges();
             return new StatusCodeResult(303);
         }
+
+
+
+
+
+
+        public IActionResult Flutterwave(string email, decimal amount)
+        {
+            var allCarts = _context.Carts.ToList();
+            var userId = Guid.Parse(HttpContext.Session.GetString("userId"));
+            var user = _context.Users.FirstOrDefault(x => x.Id == userId);
+            var order = _context.Orders.FirstOrDefault(x => x.UserId == userId);
+            var products = _context.Products.ToList();
+            List<Models.Product> userCarts = new List<Models.Product>();
+            decimal sum = 0;
+            if (allCarts.Count != 0 || products.Count != 0)
+            {
+                List<decimal> price = new List<decimal>();
+                foreach (var product in products)
+                {
+                    foreach (var cart in allCarts)
+                    {
+                        if (cart.UserId == userId)
+                        {
+                            if (cart.ProductId == product.Id)
+                            {
+                                price.Add(product.Price);
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < price.Count; i++)
+                {
+                    sum = sum + price[i];
+                }
+            }
+            var userEmail = _context.Users.FirstOrDefault(x => x.Id == userId).Email;
+            var txRef = Guid.NewGuid().ToString();
+            var redirecrUrl = Url.Action("PaymentCallback", "CheckOut", null, Request.Scheme);
+            var flutterwaveService = new Flutterwave(new HttpClient());
+            var checkOutUrl = flutterwaveService.CreatePaymentIntent(sum, email, "USD", txRef, redirecrUrl).Result;
+            return View();
+        }
+
+
+
+
+        public IActionResult PayStack()
+        {
+            return View();
+        }
+
+
+
         public IActionResult OrderConfirmation()
         {
             var allCarts = _context.Carts.ToList();
@@ -159,6 +214,11 @@ namespace WebApplication1.Controllers
                 client.Disconnect(true);
             }
             _context.SaveChanges();
+            return View();
+        }
+        [HttpGet]
+        public IActionResult PaymentOption()
+        {
             return View();
         }
 

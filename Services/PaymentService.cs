@@ -1,10 +1,11 @@
 ﻿using Microsoft.Extensions.Options;
 using Stripe;
+using WebApplication1.Interface;
 using WebApplication1.Models;
 
 namespace WebApplication1.Services
 {
-    public class PaymentService
+    public class PaymentService : IPaymentGateway
     {
         private readonly StripeSettings _stripeSettings;
 
@@ -14,7 +15,7 @@ namespace WebApplication1.Services
             StripeConfiguration.ApiKey = _stripeSettings.SecretKey;
         }
 
-        public async Task<string> CreatePaymentIntent(decimal amount)
+        public async Task<string> CreatePaymentIntent(decimal amount, string email, string callbackUrl)
         {
             var options = new PaymentIntentCreateOptions
             {

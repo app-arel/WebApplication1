@@ -1,0 +1,24 @@
+﻿@model WebApplication1.ViewModel.UserProductsCategoriesCartsViewModel;
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+    <html>
+    <head>
+        <title></title>
+    </head>
+<body>
+    Choose between these payment options:
+    <form asp-action="stripe" method="post" class="btn btn-warning">
+        <button type="submit">Stripe api</button>
+    </form>
+    Choose between these payment options:
+    <form asp-action="stripe" method="post" class="btn btn-warning">
+        <button type="submit">Flutterwave api</button>
+    </form>
+    Choose between these payment options:
+    <form asp-action="stripe" method="post" class="btn btn-warning">
+        <button type="submit">Paystack api</button>
+    </form>
+</body>
+    </html>

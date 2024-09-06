@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Stripe;
 using WebApplication1.Data;
+using WebApplication1.Interface;
 using WebApplication1.Models;
 using WebApplication1.Services;
 using static WebApplication1.Controllers.HomeController;
@@ -34,6 +35,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddControllersWithViews();
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+builder.Services.AddScoped<IPaymentGateway, Flutterwave>();
 builder.Services.AddScoped<PaymentService>();
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe")["SecretKey"];
 var app = builder.Build();

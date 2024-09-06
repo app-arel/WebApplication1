@@ -17,6 +17,7 @@ using SendGrid.Helpers.Mail;
 using static System.Reflection.Metadata.BlobBuilder;
 using System.Text;
 using WebApplication1.Services;
+using WebApplication1.Interface;
 
 namespace WebApplication1.Controllers
 {
@@ -25,7 +26,7 @@ namespace WebApplication1.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly DataContext _context;
         private readonly Cloudinary _cloudinary;
-        private readonly PaymentService _paymentService;
+        private readonly IPaymentGateway _paymentService;
         public HomeController(ILogger<HomeController> logger, DataContext context, Cloudinary cloudinary, PaymentService paymentService)
         {
             _cloudinary = cloudinary;
@@ -37,7 +38,7 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public async Task<IActionResult> ProcessPayment(long amount)
         {
-            var charge = await _paymentService.CreatePaymentIntent(amount);
+            var charge = await _paymentService.CreatePaymentIntent( amount, "test@test.com", "sbkad");
             ViewBag.ClientSecret = charge;
             return View("PaymentForm");
         }
@@ -646,7 +647,7 @@ namespace WebApplication1.Controllers
                 _context.SaveChanges();
             }
             _context.SaveChanges();
-            return RedirectToAction("index", "CheckOut");
+            return RedirectToAction($"index", "CheckOut");
         }
         public IActionResult ClearCart()
         {
