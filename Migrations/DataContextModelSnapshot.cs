@@ -178,6 +178,10 @@ namespace WebApplication1.Migrations
                     b.Property<Guid>("OrderId")
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("PaymentOption")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -187,8 +191,18 @@ namespace WebApplication1.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("ResponseTime")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<Guid>("ShippingDetailId")
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("TransactionResponse")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("TransactionTime")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<decimal>("UnitPrice")
                         .HasColumnType("decimal(18,2)");

@@ -15,7 +15,7 @@ namespace WebApplication1.Services
             StripeConfiguration.ApiKey = _stripeSettings.SecretKey;
         }
 
-        public async Task<string> CreatePaymentIntent(decimal amount, string email, string callbackUrl)
+        public async Task<string> CreatePaymentIntent(decimal amount, string email, string callbackUrl, string txREF, string url)
         {
             var options = new PaymentIntentCreateOptions
             {

@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pay with Paystack</title>
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+</head>
+<body onload="payWithPaystack()" style="background-color:black">
+    <h2>Pay with Paystack</h2>
+
+    <button onclick="payWithPaystack()" type="button"> Pay Now </button>
+
+    <form asp-action="Order" asp-controller="Home">
+    <script>
+        function payWithPaystack() {
+            var handler = PaystackPop.setup({
+                key: '@ViewBag.PaystackPublicKey', // Your Paystack public key
+                email: '@ViewBag.email', // User's email
+                amount: @ViewBag.sum, // The amount in kobo (e.g., 500000 for 5000 Naira)
+                currency: 'NGN', // Naira currency
+                ref: '@ViewBag.txRef', // Unique transaction reference
+                callback: function (response) {
+                    // On successful payment, redirect to the VerifyPayment action
+                    window.location.href = '@Url.Action("VerifyPayment", "CheckOut")?reference=' + response.reference;
+                },
+                onClose: function () {
+                    alert('Payment process was canceled.');
+                }
+            });
+            handler.openIframe(); // Open Paystack payment interface
+        }
+    </script>
+    </form>
+</body>
+</html>

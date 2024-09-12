@@ -38,7 +38,7 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public async Task<IActionResult> ProcessPayment(long amount)
         {
-            var charge = await _paymentService.CreatePaymentIntent( amount, "test@test.com", "sbkad");
+            var charge = await _paymentService.CreatePaymentIntent( amount, "test@test.com", "USD" , " ", "sbkad");
             ViewBag.ClientSecret = charge;
             return View("PaymentForm");
         }
@@ -618,9 +618,11 @@ namespace WebApplication1.Controllers
                     sum = sum + price[i];
                 }
             }
+            var id = Guid.NewGuid();
+            HttpContext.Session.SetString("orderId", id.ToString());
             var order = new Order
             {
-                Id = Guid.NewGuid(),
+                Id = id,
                 UserId = userId,
                 OrderDate = DateTime.Now,
                 Status = OrderStatus.Paid,
@@ -635,19 +637,23 @@ namespace WebApplication1.Controllers
                 var bill = _context.BillingDetails.ToList();
                 var orderDetail = new OrderDetail
                 {
-                    OrderId = order.Id,
+                    OrderId = id,
                     ProductId = product.Id,
                     Quantity = 1,
                     UnitPrice = product.Price,
                     Price = product.Price * 1,
                     BillingDetailId = bill[bill.Count - 1].Id,
-                    ShippingDetailId = bill[bill.Count - 1].Id
+                    ShippingDetailId = bill[bill.Count - 1].Id,
+                    PaymentOption = "Stripe",
+                    TransactionResponse = "Success",
+                    ResponseTime = DateTime.Now,
+                    TransactionTime = DateTime.Now
                 };
                 _context.OrderDetails.Add(orderDetail);
                 _context.SaveChanges();
             }
             _context.SaveChanges();
-            return RedirectToAction($"index", "CheckOut");
+            return RedirectToAction("paymentoption", "checkout");
         }
         public IActionResult ClearCart()
         {
@@ -673,17 +679,6 @@ namespace WebApplication1.Controllers
             };
             if(viewModel.Products == null || !viewModel.Products.Any())
             {
-                Console.WriteLine("eRRORRRR");
-                Console.WriteLine("eRRORRRR");
-                Console.WriteLine("eRRORRRR");
-                Console.WriteLine("eRRORRRR");
-                Console.WriteLine("eRRORRRR");
-                Console.WriteLine("eRRORRRR");
-                Console.WriteLine("eRRORRRR");
-                Console.WriteLine("eRRORRRR");
-                Console.WriteLine("eRRORRRR");
-                Console.WriteLine("eRRORRRR");
-                Console.WriteLine("eRRORRRR");
             }
             return View(viewModel);
         }

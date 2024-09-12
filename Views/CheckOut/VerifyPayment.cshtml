@@ -1,0 +1,18 @@
+﻿@{
+    ViewBag.Title = "Payment Verification";
+}
+
+<h2>@ViewBag.Message</h2>
+
+@if (ViewBag.Message == "Payment successful!")
+{
+    <p>Thank you for your payment! Your transaction has been verified.</p>
+}
+else if (ViewBag.Message == "Payment verification failed!")
+{
+    <p>Something went wrong while verifying your payment. Please try again.</p>
+}
+else
+{
+    <p>error unknown to all of mankind</p>
+}

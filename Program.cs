@@ -37,7 +37,6 @@ builder.Services.AddControllersWithViews();
 builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 builder.Services.AddScoped<IPaymentGateway, Flutterwave>();
 builder.Services.AddScoped<PaymentService>();
-StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe")["SecretKey"];
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

@@ -9,16 +9,23 @@
     </head>
 <body>
     Choose between these payment options:
-    <form asp-action="stripe" method="post" class="btn btn-warning">
+    <form asp-action="stripe" asp-controller="CheckOut" method="post" class="btn btn-warning">
         <button type="submit">Stripe api</button>
     </form>
-    Choose between these payment options:
-    <form asp-action="stripe" method="post" class="btn btn-warning">
-        <button type="submit">Flutterwave api</button>
+    <form action="https://checkout.flutterwave.com/v3/hosted/pay" method="post" class="btn btn-warning">
+        <form asp-action="Order" asp-controller="Home">
+            <input type="hidden" name="public_key" value="FLWPUBK_TEST-7a76e83c044fec5761cb685ff4880f4f-X" />
+            <input type="hidden" name="customer[email]" value="@ViewBag.email" />
+            <input type="hidden" name="customer[name]" value="@ViewBag.name" />
+            <input type="hidden" name="tx_ref" value="@ViewBag.txref" />
+            <input type="hidden" name="amount" value="@ViewBag.sum" />
+            <input type="hidden" name="currency" value="EUR" />
+            <input type="hidden" name="meta[source]" value="docs-html-test" />
+            <br>
+            <button type="submit" id="start-payment-button">Flutterwave api</button>
+        </form>
     </form>
     Choose between these payment options:
-    <form asp-action="stripe" method="post" class="btn btn-warning">
-        <button type="submit">Paystack api</button>
-    </form>
+        <a href="~/checkout/PaystackView"><button type="submit">Paystack api</button></a>
 </body>
     </html>
